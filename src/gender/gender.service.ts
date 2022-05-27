@@ -20,7 +20,7 @@ export class GenderService {
     return `This action updates a #${id} gender`;
   }
 
-  remove(id: string) {
+  delete(id: string) {
     return `This action removes a #${id} gender`;
   }
 }

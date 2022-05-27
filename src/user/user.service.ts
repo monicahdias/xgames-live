@@ -20,7 +20,7 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: string) {
+  delete(id: string) {
     return `This action removes a #${id} user`;
   }
 }

@@ -20,7 +20,7 @@ export class ProfileService {
     return `This action updates a #${id} profile`;
   }
 
-  remove(id: string) {
+  delete(id: string) {
     return `This action removes a #${id} profile`;
   }
 }
