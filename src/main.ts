@@ -13,9 +13,9 @@ async function bootstrap() {
     .setDescription('Games Platform')
     .setVersion('1.0.0')
     .addTag('status')
-    .addTag('game')
     .addTag('user')
     .addTag('profile')
+    .addTag('game')
     .addTag('gender')
     .build();
 
