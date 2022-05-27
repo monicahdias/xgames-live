@@ -13,7 +13,7 @@ export class GameService {
     return this.prisma.game.findMany();
   }
 
-  async findOne(id: string): Promise<Game> {
+  async findById(id: string): Promise<Game> {
     const record = await this.prisma.game.findUnique({ where: { id } });
 
     if(!record) {
@@ -23,13 +23,19 @@ export class GameService {
     return record;
   }
 
+  async findOne(id: string): Promise<Game> {
+    return this.findById(id);
+  }
+
   create(dto: CreateGameDto): Promise<Game> {
     const data: Game = { ...dto}
 
     return this.prisma.game.create({data});
   }
 
-  update(id: string, dto: UpdateGameDto): Promise<Game> {
+  async update(id: string, dto: UpdateGameDto): Promise<Game> {
+    await this.findById(id);
+
     const data: Partial<Game> = { ...dto}
 
     return this.prisma.game.update({
@@ -39,6 +45,8 @@ export class GameService {
   }
 
   async delete(id: string) {
+    await this.findById(id);
+
     await this.prisma.game.delete({ where: { id } });
   }
 
