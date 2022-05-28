@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsString } from "class-validator"
+import { IsBoolean, IsString, Matches, MinLength } from "class-validator"
 
 export class CreateUserDto {
 
@@ -18,11 +18,22 @@ export class CreateUserDto {
   email: string
 
   @IsString()
+  @MinLength(6)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'Password too weak',
+  })
   @ApiProperty({
     description: "The user's password",
     example: "123456@Abcdef",
   })
   password: string
+
+  @IsString()
+  @ApiProperty({
+    description: "The user's confirm password",
+    example: "123456@Abcdef",
+  })
+  confirmpassword: string
 
   @IsString()
   @ApiProperty({
