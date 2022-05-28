@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsString, Matches, MinLength } from "class-validator"
+import { IsBoolean, IsString, Matches, MaxLength, MinLength } from "class-validator"
 
 export class CreateUserDto {
 
@@ -36,6 +36,8 @@ export class CreateUserDto {
   confirmpassword: string
 
   @IsString()
+  @MinLength(11)
+  @MaxLength(11)
   @ApiProperty({
     description: "The user's cpf",
     example: "12345678901",
