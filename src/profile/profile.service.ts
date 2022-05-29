@@ -11,7 +11,27 @@ export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll() {
-    return `Find all profiles`;
+    return this.prisma.profile.findMany({
+      select: {
+        id: true,
+        games: {
+          select: {
+            title: true,
+            coverimageurl: true,
+            description: true,
+            year: true,
+            imdbscore: true,
+          }
+        },
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        }
+
+      }
+    }).catch(handleError);
   }
 
   create(createProfileDto: CreateProfileDto) {
@@ -43,6 +63,10 @@ export class ProfileService {
         games: {
           select: {
             title: true,
+            coverimageurl: true,
+            description: true,
+            year: true,
+            imdbscore: true,
           }
         },
       },
@@ -51,7 +75,25 @@ export class ProfileService {
   }
 
   findOne(id: string) {
-    return `Find a profile by ID`;
+    return this.prisma.profile.findUnique({
+      where: {id},
+      include: {
+        user: {
+          select: {
+            name: true,
+          }
+        },
+        games: {
+          select: {
+            title: true,
+            coverimageurl: true,
+            description: true,
+            year: true,
+            imdbscore: true,
+          }
+        },
+      },
+  });
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
