@@ -17,7 +17,7 @@ export class GenreService {
     const record = await this.prisma.genre.findUnique({ where: { id } });
 
     if(!record) {
-      throw new NotFoundException(`Genre with id ${id} not found`);
+      throw new NotFoundException(`Genre with ID ${id} not found`);
     }
 
     return record;

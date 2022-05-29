@@ -27,7 +27,7 @@ export class GenreController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Find a genre by id',
+    summary: 'Find a genre by ID',
   })
   findOne(@Param('id') id: string) {
     return this.genreService.findOne(id);
@@ -35,7 +35,7 @@ export class GenreController {
 
   @Patch(':id')
   @ApiOperation({
-    summary: 'Update a genre by id',
+    summary: 'Update a genre by ID',
   })
   update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
     return this.genreService.update(id, updateGenreDto);
@@ -44,7 +44,7 @@ export class GenreController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: 'Delete a genre by id',
+    summary: 'Delete a genre by ID',
   })
   delete(@Param('id') id: string) {
     this.genreService.delete(id);

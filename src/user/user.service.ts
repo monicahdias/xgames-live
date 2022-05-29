@@ -33,7 +33,7 @@ export class UserService {
     });
 
     if(!record) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     return record;

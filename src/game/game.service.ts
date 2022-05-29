@@ -17,7 +17,7 @@ export class GameService {
     const record = await this.prisma.game.findUnique({ where: { id } });
 
     if(!record) {
-      throw new NotFoundException(`Game with id ${id} not found`);
+      throw new NotFoundException(`Game with ID ${id} not found`);
     }
 
     return record;

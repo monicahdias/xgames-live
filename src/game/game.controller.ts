@@ -20,7 +20,7 @@ export class GameController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Find a game by id',
+    summary: 'Find a game by ID',
   })
   findOne(@Param('id') id: string): Promise<Game> {
     return this.gameService.findOne(id);
@@ -36,7 +36,7 @@ export class GameController {
 
   @Patch(':id')
   @ApiOperation({
-    summary: 'Update a game by id',
+    summary: 'Update a game by ID',
   })
   update(@Param('id') id: string, @Body() dto: UpdateGameDto): Promise<Game> {
     return this.gameService.update(id, dto);
@@ -45,7 +45,7 @@ export class GameController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: 'Delete a game by id',
+    summary: 'Delete a game by ID',
   })
   delete(@Param('id') id: string) {
     this.gameService.delete(id);

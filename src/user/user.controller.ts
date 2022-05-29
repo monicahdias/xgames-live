@@ -27,7 +27,7 @@ export class UserController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Find an user by id',
+    summary: 'Find an user by ID',
   })
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
@@ -35,7 +35,7 @@ export class UserController {
 
   @Patch(':id')
   @ApiOperation({
-    summary: 'Update an user by id',
+    summary: 'Update an user by ID',
   })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
@@ -44,7 +44,7 @@ export class UserController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: 'Delete an user by id',
+    summary: 'Delete an user by ID',
   })
   delete(@Param('id') id: string) {
     this.userService.delete(id);
