@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
 
 @ApiTags('profile')
@@ -31,6 +32,21 @@ export class ProfileController {
   findOne(@Param('id') id: string) {
     return this.profileService.findOne(id);
   }
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Update a profile by ID',
+  })
+  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
+    return this.profileService.update(id, updateProfileDto);
+  }
 
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Delete a profile by ID',
+  })
+  delete(@Param('id') id: string) {
+    this.profileService.delete(id);
+  }
 
 }
