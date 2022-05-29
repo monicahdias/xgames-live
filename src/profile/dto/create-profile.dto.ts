@@ -25,7 +25,7 @@ export class CreateProfileDto {
 
   @IsUUID(undefined, { each: true })
   @ApiProperty({
-    description: "The profile's games",
+    description: "The profile's games IDs",
     example: '["01b48c82-e6c7-4471-84a6-353578379d14", "24cb1fe5-47c1-4fa3-ac90-677b31ce9d88", "c73ecfcd-38ae-4de1-8ebe-4f231d6d13bd"]',
   })
     games: string[];

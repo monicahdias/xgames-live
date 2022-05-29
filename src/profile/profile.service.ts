@@ -10,6 +10,10 @@ export class ProfileService {
 
   constructor(private readonly prisma: PrismaService) {}
 
+  findAll() {
+    return `Find all profiles`;
+  }
+
   create(createProfileDto: CreateProfileDto) {
     const data: Prisma.ProfileCreateInput = {
       user: {
@@ -19,22 +23,41 @@ export class ProfileService {
       },
       title: createProfileDto.title,
       imageUrl: createProfileDto.imageUrl,
-
+      games: {
+        connect: createProfileDto.games.map(gameId => ({
+              id: gameId,
+            })),
+      }
     }
-    return this.prisma.profile.create({data}).catch(handleError)
+    return this.prisma.profile.create({
+      data,
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        user: {
+          select: {
+            name: true,
+          }
+        },
+        games: {
+          select: {
+            title: true,
+          }
+        },
+      },
+    }).catch(handleError)
 
-  }
-
-  findAll() {
-    return `Find all profiles`;
   }
 
   findOne(id: string) {
     return `Find a profile by ID`;
   }
+
   update(id: string, updateProfileDto: UpdateProfileDto) {
     throw new Error('Method not implemented.');
   }
+
   delete(id: string) {
     throw new Error('Method not implemented.');
   }
