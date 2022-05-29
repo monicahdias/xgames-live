@@ -14,6 +14,7 @@ export class ProfileService {
     return this.prisma.profile.findMany({
       select: {
         id: true,
+        title: true,
         games: {
           select: {
             title: true,
@@ -97,10 +98,19 @@ export class ProfileService {
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
-    throw new Error('Method not implemented.');
+    return this.prisma.profile.update({
+      where: {id},
+      data: {
+        title: updateProfileDto.title,
+        imageUrl: updateProfileDto.imageUrl,
+        games: {
+          connect: updateProfileDto.games.map(gameId => ({
+            id: gameId,
+          })),
+        }}}).catch(handleError);
   }
 
   delete(id: string) {
-    throw new Error('Method not implemented.');
+    this.prisma.profile.delete({where: {id}}).catch(handleError);
   }
 }
