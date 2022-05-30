@@ -7,32 +7,32 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class ProfileService {
-
   constructor(private readonly prisma: PrismaService) {}
 
   findAll() {
-    return this.prisma.profile.findMany({
-      select: {
-        id: true,
-        title: true,
-        games: {
-          select: {
-            title: true,
-            coverimageurl: true,
-            description: true,
-            year: true,
-            imdbscore: true,
-          }
+    return this.prisma.profile
+      .findMany({
+        select: {
+          id: true,
+          title: true,
+          games: {
+            select: {
+              title: true,
+              coverimageurl: true,
+              description: true,
+              year: true,
+              imdbscore: true,
+            },
+          },
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
         },
-        user: {
-          select: {
-            name: true,
-            email: true,
-          }
-        }
-
-      }
-    }).catch(handleError);
+      })
+      .catch(handleError);
   }
 
   create(createProfileDto: CreateProfileDto) {
@@ -45,44 +45,45 @@ export class ProfileService {
       title: createProfileDto.title,
       imageUrl: createProfileDto.imageUrl,
       games: {
-        connect: createProfileDto.games.map(gameId => ({
-              id: gameId,
-            })),
-      }
-    }
-    return this.prisma.profile.create({
-      data,
-      select: {
-        id: true,
-        title: true,
-        imageUrl: true,
-        user: {
-          select: {
-            name: true,
-          }
-        },
-        games: {
-          select: {
-            title: true,
-            coverimageurl: true,
-            description: true,
-            year: true,
-            imdbscore: true,
-          }
-        },
+        connect: createProfileDto.games.map((gameId) => ({
+          id: gameId,
+        })),
       },
-    }).catch(handleError)
-
+    };
+    return this.prisma.profile
+      .create({
+        data,
+        select: {
+          id: true,
+          title: true,
+          imageUrl: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+          games: {
+            select: {
+              title: true,
+              coverimageurl: true,
+              description: true,
+              year: true,
+              imdbscore: true,
+            },
+          },
+        },
+      })
+      .catch(handleError);
   }
 
   findOne(id: string) {
     return this.prisma.profile.findUnique({
-      where: {id},
+      where: { id },
       include: {
         user: {
           select: {
             name: true,
-          }
+          },
         },
         games: {
           select: {
@@ -91,26 +92,30 @@ export class ProfileService {
             description: true,
             year: true,
             imdbscore: true,
-          }
+          },
         },
       },
-  });
+    });
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
-    return this.prisma.profile.update({
-      where: {id},
-      data: {
-        title: updateProfileDto.title,
-        imageUrl: updateProfileDto.imageUrl,
-        games: {
-          connect: updateProfileDto.games.map(gameId => ({
-            id: gameId,
-          })),
-        }}}).catch(handleError);
+    return this.prisma.profile
+      .update({
+        where: { id },
+        data: {
+          title: updateProfileDto.title,
+          imageUrl: updateProfileDto.imageUrl,
+          games: {
+            connect: updateProfileDto.games.map((gameId) => ({
+              id: gameId,
+            })),
+          },
+        },
+      })
+      .catch(handleError);
   }
 
   delete(id: string) {
-    this.prisma.profile.delete({where: {id}}).catch(handleError);
+    this.prisma.profile.delete({ where: { id } }).catch(handleError);
   }
 }

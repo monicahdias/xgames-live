@@ -1,23 +1,27 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import * as bcrypt from "bcrypt";
-import { PrismaService } from "src/prisma/prisma.service";
-import { handleError } from "src/utils/handle-error.util";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { User } from "./entities/user.entity";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { handleError } from 'src/utils/handle-error.util';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
   private userSelect = {
-      id: true,
-        name: true,
-        email: true,
-        password: false,
-        cpf: true,
-        isAdmin: true,
-        createdAt: true,
-        updatedAt: true,
-  }
+    id: true,
+    name: true,
+    email: true,
+    password: false,
+    cpf: true,
+    isAdmin: true,
+    createdAt: true,
+    updatedAt: true,
+  };
 
   constructor(private readonly prisma: PrismaService) {}
 
@@ -33,7 +37,7 @@ export class UserService {
       select: this.userSelect,
     });
 
-    if(!record) {
+    if (!record) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
@@ -45,7 +49,7 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto): Promise<User> {
-    if(dto.password !== dto.confirmpassword) {
+    if (dto.password !== dto.confirmpassword) {
       throw new BadRequestException('Passwords do not match');
     }
 
@@ -53,38 +57,41 @@ export class UserService {
 
     const data: User = {
       ...dto,
-      password: await bcrypt.hash(dto.password, 10)
+      password: await bcrypt.hash(dto.password, 10),
     };
 
-    return this.prisma.user.create({
-      data,
-      select: this.userSelect,
-    }).catch(handleError);
+    return this.prisma.user
+      .create({
+        data,
+        select: this.userSelect,
+      })
+      .catch(handleError);
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
     await this.findById(id);
 
-    if(dto.password) {
-      if(dto.password != dto.confirmpassword) {
+    if (dto.password) {
+      if (dto.password != dto.confirmpassword) {
         throw new BadRequestException('Passwords do not match');
       }
     }
 
     delete dto.confirmpassword;
 
-    const data: Partial<User> = { ...dto}
+    const data: Partial<User> = { ...dto };
 
-    if(data.password) {
+    if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);
     }
 
-    return this.prisma.user.update({
-      where: { id },
-      data,
-      select: this.userSelect,
-    })
-    .catch(handleError);
+    return this.prisma.user
+      .update({
+        where: { id },
+        data,
+        select: this.userSelect,
+      })
+      .catch(handleError);
   }
 
   async delete(id: string) {

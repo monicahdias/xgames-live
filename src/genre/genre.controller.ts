@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
@@ -9,13 +19,13 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
-    @Get()
-    @ApiOperation({
-      summary: 'Find all genres',
-    })
-    findAll() {
-      return this.genreService.findAll();
-    }
+  @Get()
+  @ApiOperation({
+    summary: 'Find all genres',
+  })
+  findAll() {
+    return this.genreService.findAll();
+  }
 
   @Post()
   @ApiOperation({
